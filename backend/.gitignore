@@ -1,0 +1,42 @@
+# Node modules
+node_modules/
+
+# Env files
+.env
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Build outputs
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Coverage
+coverage/
+
+# Lowdb JSON file (if present)
+database.json
+
+# Misc
+*.tgz
+
+# Lockfiles (optional)
+# package-lock.json
+# pnpm-lock.yaml
