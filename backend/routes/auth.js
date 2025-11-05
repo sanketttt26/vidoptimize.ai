@@ -1,6 +1,10 @@
 import express from "express";
 import bcrypt from "bcryptjs";
-import { generateToken } from "../utils/jwt.js";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken,
+} from "../utils/jwt.js";
 import { dataService } from "../services/dataService.js";
 import { authenticateToken } from "../middleware/auth.js";
 
@@ -15,6 +19,13 @@ function normalizeUser(user) {
   delete obj._id;
   return obj;
 }
+
+const cookieOptions = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax",
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+};
 
 // Register
 router.post("/register", async (req, res) => {
@@ -43,15 +54,22 @@ router.post("/register", async (req, res) => {
 
     const userObj = normalizeUser(created);
 
-    // Generate token
-    const token = generateToken(userObj.id, userObj.email);
+    // Generate tokens
+    const accessToken = generateAccessToken(userObj.id, userObj.email);
+    const refreshToken = generateRefreshToken(userObj.id, userObj.email);
+
+    // Persist refresh token
+    await dataService.updateUser(userObj.id, { refresh_token: refreshToken });
+
+    // Set refresh token as httpOnly cookie
+    res.cookie("refreshToken", refreshToken, cookieOptions);
 
     // Return user without password
     const { password: _, ...userWithoutPassword } = userObj;
 
     res.status(201).json({
       message: "Registration successful",
-      token,
+      token: accessToken,
       user: userWithoutPassword,
     });
   } catch (error) {
@@ -83,20 +101,66 @@ router.post("/login", async (req, res) => {
 
     const userObj = normalizeUser(user);
 
-    // Generate token
-    const token = generateToken(userObj.id, userObj.email);
+    // Generate tokens
+    const accessToken = generateAccessToken(userObj.id, userObj.email);
+    const refreshToken = generateRefreshToken(userObj.id, userObj.email);
+
+    // Persist refresh token
+    await dataService.updateUser(userObj.id, { refresh_token: refreshToken });
+
+    // Set refresh token cookie
+    res.cookie("refreshToken", refreshToken, cookieOptions);
 
     // Return user without password
     const { password: _, ...userWithoutPassword } = userObj;
 
     res.json({
       message: "Login successful",
-      token,
+      token: accessToken,
       user: userWithoutPassword,
     });
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ error: "Login failed" });
+  }
+});
+
+// Refresh access token (rotate refresh token)
+router.post("/refresh", async (req, res) => {
+  try {
+    const refreshToken = req.cookies?.refreshToken;
+    if (!refreshToken)
+      return res.status(401).json({ error: "No refresh token" });
+
+    const payload = verifyRefreshToken(refreshToken);
+    if (!payload)
+      return res
+        .status(403)
+        .json({ error: "Invalid or expired refresh token" });
+
+    // Find user by stored refresh token
+    const storedUser = await dataService.findUserByRefreshToken(refreshToken);
+    if (!storedUser)
+      return res.status(403).json({ error: "Refresh token not recognized" });
+
+    // Rotate tokens
+    const userObj = normalizeUser(storedUser);
+    const newAccessToken = generateAccessToken(userObj.id, userObj.email);
+    const newRefreshToken = generateRefreshToken(userObj.id, userObj.email);
+
+    // Persist new refresh token
+    await dataService.updateUser(userObj.id, {
+      refresh_token: newRefreshToken,
+    });
+
+    // Set cookie
+    res.cookie("refreshToken", newRefreshToken, cookieOptions);
+
+    const { password: _, ...userWithoutPassword } = userObj;
+    res.json({ token: newAccessToken, user: userWithoutPassword });
+  } catch (err) {
+    console.error("Refresh token error:", err);
+    res.status(500).json({ error: "Failed to refresh token" });
   }
 });
 
@@ -117,9 +181,18 @@ router.get("/profile", authenticateToken, async (req, res) => {
   }
 });
 
-// Logout (client-side token removal)
-router.post("/logout", authenticateToken, (req, res) => {
-  res.json({ message: "Logout successful" });
+// Logout (clears refresh token cookie and server-side stored token)
+router.post("/logout", authenticateToken, async (req, res) => {
+  try {
+    // remove stored refresh token for user
+    await dataService.updateUser(req.user.userId, { refresh_token: null });
+    // clear cookie
+    res.clearCookie("refreshToken", cookieOptions);
+    res.json({ message: "Logout successful" });
+  } catch (err) {
+    console.error("Logout error:", err);
+    res.status(500).json({ error: "Logout failed" });
+  }
 });
 
 export default router;

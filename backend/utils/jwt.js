@@ -1,18 +1,35 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
-const JWT_SECRET = process.env.JWT_SECRET || 'vidoptimize_jwt_secret_key_2025';
+const ACCESS_SECRET = process.env.JWT_SECRET;
+const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 
-export const generateToken = (userId, email) => {
-  return jwt.sign(
-    { userId, email },
-    JWT_SECRET,
-    { expiresIn: '7d' }
+if (!process.env.JWT_SECRET || !process.env.JWT_REFRESH_SECRET) {
+  console.warn(
+    "Warning: Using default JWT secrets. Set JWT_SECRET and JWT_REFRESH_SECRET in environment for production."
   );
+}
+
+export const generateAccessToken = (userId, email) => {
+  return jwt.sign({ userId, email }, ACCESS_SECRET, { expiresIn: "15m" });
 };
 
-export const verifyToken = (token) => {
+export const generateRefreshToken = (userId, email) => {
+  return jwt.sign({ userId, email }, REFRESH_SECRET, { expiresIn: "7d" });
+};
+
+export const verifyAccessToken = (token) => {
   try {
-    return jwt.verify(token, JWT_SECRET);
+    return jwt.verify(token, ACCESS_SECRET);
+  } catch (error) {
+    return null;
+  }
+};
+
+export const verifyRefreshToken = (token) => {
+  try {
+    return jwt.verify(token, REFRESH_SECRET);
   } catch (error) {
     return null;
   }

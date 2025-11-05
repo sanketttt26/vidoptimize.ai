@@ -86,6 +86,17 @@ export const dbService = {
     }
   },
 
+  // Find user by refresh token (used for refresh token rotation)
+  findUserByRefreshToken: async (token) => {
+    try {
+      if (!token) return null;
+      return await User.findOne({ refresh_token: String(token) }).lean();
+    } catch (err) {
+      console.error("findUserByRefreshToken error:", err);
+      throw new Error("Failed to query user by refresh token");
+    }
+  },
+
   getUserById: async (userId) => {
     try {
       if (!isValidObjectId(userId)) return null;
