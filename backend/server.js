@@ -8,6 +8,7 @@ import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import optimizationRoutes from "./routes/optimizations.js";
 import dashboardRoutes from "./routes/dashboard.js";
+import aiRoutes from "./routes/ai.js";
 import connectWithMongodb from "./utils/connectWithMongodb.js";
 
 // Load environment variables
@@ -20,7 +21,7 @@ const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: FRONTEND_URL,
     credentials: true,
   })
 );
@@ -45,6 +46,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/optimizations", optimizationRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/ai", aiRoutes);
 
 // 404 handler
 app.use((req, res) => {
