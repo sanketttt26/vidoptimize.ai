@@ -5,80 +5,31 @@ import { useAuth } from '../context/AuthContext';
 const Landing = () => {
   const { isAuthenticated } = useAuth();
 
-  const features = [
-    {
-      icon: 'fa-robot',
-      title: 'AI-Powered Optimization',
-      description: 'Advanced algorithms analyze your content and generate data-driven suggestions'
-    },
-    {
-      icon: 'fa-chart-line',
-      title: 'Performance Analytics',
-      description: 'Track views, engagement, and growth with comprehensive analytics'
-    },
-    {
-      icon: 'fa-magic',
-      title: 'Smart Suggestions',
-      description: 'Get intelligent title, description, and tag recommendations'
-    },
-    {
-      icon: 'fa-bolt',
-      title: 'Instant Results',
-      description: 'Receive optimizations in seconds with our lightning-fast AI engine'
-    },
-    {
-      icon: 'fa-history',
-      title: 'Optimization History',
-      description: 'Access all your previous optimizations and track improvements'
-    },
-    {
-      icon: 'fa-shield-alt',
-      title: 'Secure & Private',
-      description: 'Your data is encrypted and protected with enterprise-grade security'
-    }
-  ];
-
-  const steps = [
-    {
-      number: 1,
-      title: 'Connect Your Channel',
-      description: 'Link your YouTube channel securely in seconds'
-    },
-    {
-      number: 2,
-      title: 'Input Video URL',
-      description: 'Paste the URL of the video you want to optimize'
-    },
-    {
-      number: 3,
-      title: 'Get AI Suggestions',
-      description: 'Our AI analyzes and generates optimized suggestions'
-    },
-    {
-      number: 4,
-      title: 'Apply & Track',
-      description: 'Implement changes and monitor performance improvements'
-    }
-  ];
-
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#4F46E5] to-[#7C3AED] text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative py-20 lg:py-32 overflow-hidden">
+        {/* Background Glow Effects */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl -z-10"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-3xl -z-10"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fadeIn">
-              Optimize Your YouTube Content with AI
+            <div className="inline-block mb-4 px-4 py-1.5 rounded-full glass-panel border-primary/30 text-primary text-sm font-medium animate-fadeIn">
+              ✨ AI-Powered YouTube Optimization
+            </div>
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight animate-slideUp">
+              Boost Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">YouTube Growth</span> with AI
             </h1>
-            <p className="text-xl mb-8 text-gray-100 animate-slideUp">
-              Boost visibility, engagement, and growth with intelligent suggestions powered by advanced AI technology
+            <p className="text-xl text-gray-400 mb-10 animate-slideUp" style={{ animationDelay: '0.1s' }}>
+              Generate viral titles, optimized descriptions, and high-ranking tags in seconds.
+              Let AI handle the SEO while you focus on creating.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slideUp">
-              <Link to={isAuthenticated ? '/dashboard' : '/register'} className="btn bg-white text-[#4F46E5] hover:bg-gray-100 px-8 py-3 text-lg rounded-xl inline-block">
-                <i className="fas fa-rocket mr-2"></i>
-                {isAuthenticated ? 'Go to Dashboard' : 'Start Free Trial'}
+            <div className="flex flex-col sm:flex-row justify-center gap-4 animate-slideUp" style={{ animationDelay: '0.2s' }}>
+              <Link to={isAuthenticated ? '/dashboard' : '/register'} className="btn btn-primary text-lg px-8 py-4 shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-1 transition-all duration-300">
+                Start Optimizing Free <i className="fas fa-arrow-right ml-2"></i>
               </Link>
-              <Link to="/pricing" className="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#4F46E5] px-8 py-3 text-lg">
+              <Link to="/pricing" className="glass-button text-lg px-8 py-4">
                 View Pricing
               </Link>
             </div>
@@ -87,59 +38,86 @@ const Landing = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Powerful Features</h2>
-            <p className="text-xl text-gray-600">Everything you need to optimize your YouTube content</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Everything You Need to Go Viral</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              Our AI analyzes millions of successful videos to give you the best recommendations for your content.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div key={index} className="card group hover:border-[#4F46E5] border border-transparent">
-                <div className="w-12 h-12 bg-[#4F46E5] rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <i className={`fas ${feature.icon} text-white text-xl`}></i>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: "fa-magic",
+                title: "Smart Title Generator",
+                desc: "Get click-worthy titles that drive views and increase CTR.",
+                color: "text-primary"
+              },
+              {
+                icon: "fa-align-left",
+                title: "SEO Descriptions",
+                desc: "Generate keyword-rich descriptions that help you rank higher.",
+                color: "text-accent"
+              },
+              {
+                icon: "fa-tags",
+                title: "Intelligent Tagging",
+                desc: "Find the perfect tags to target the right audience.",
+                color: "text-teal-400"
+              }
+            ].map((feature, index) => (
+              <div key={index} className="glass-card p-8 group">
+                <div className={`w-14 h-14 rounded-2xl glass-panel flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border-${feature.color.split('-')[1]}/30`}>
+                  <i className={`fas ${feature.icon} ${feature.color} text-2xl`}></i>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <h3 className="text-xl font-bold mb-3 text-white group-hover:text-primary transition-colors">{feature.title}</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  {feature.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
-            <p className="text-xl text-gray-600">Get started in 4 simple steps</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {steps.map((step, index) => (
-              <div key={index} className="relative flex flex-col">
-                <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow h-full min-h-[180px] flex flex-col">
-                  <div className="w-12 h-12 bg-[#4F46E5] rounded-full flex items-center justify-center mb-4 text-white font-bold text-xl shrink-0">
-                    {step.number}
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{step.title}</h3>
-                  <p className="text-gray-600 flex-1">{step.description}</p>
-                </div>
+      {/* Stats Section */}
+      <section className="py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/5"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="glass-panel rounded-3xl p-12 border border-white/10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/10">
+              <div className="p-4">
+                <div className="text-4xl font-bold text-white mb-2">1M+</div>
+                <div className="text-primary font-medium">Videos Optimized</div>
               </div>
-            ))}
+              <div className="p-4">
+                <div className="text-4xl font-bold text-white mb-2">50k+</div>
+                <div className="text-primary font-medium">Happy Creators</div>
+              </div>
+              <div className="p-4">
+                <div className="text-4xl font-bold text-white mb-2">300%</div>
+                <div className="text-primary font-medium">Avg. View Increase</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-[#4F46E5] text-white">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold mb-4">Ready to Boost Your YouTube Success?</h2>
-          <p className="text-xl mb-8">Join thousands of creators optimizing their content with AI</p>
-          <Link to={isAuthenticated ? '/dashboard' : '/register'} className="btn bg-white text-[#4F46E5] hover:bg-gray-100 px-8 py-3 text-lg inline-block">
-            {isAuthenticated ? 'Go to Dashboard' : 'Start Your Free Trial'}
-          </Link>
+      <section className="py-20 relative">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="glass-panel rounded-3xl p-12 relative overflow-hidden group hover:border-primary/30 transition-colors duration-500">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 relative z-10">Ready to Grow Your Channel?</h2>
+            <p className="text-xl text-gray-400 mb-8 relative z-10">
+              Join thousands of creators who are already using VidOptimize AI to dominate their niche.
+            </p>
+            <Link to={isAuthenticated ? '/dashboard' : '/register'} className="btn btn-primary text-lg px-10 py-4 shadow-xl shadow-primary/25 hover:shadow-primary/50 relative z-10 inline-block transform hover:-translate-y-1 transition-all duration-300">
+              Get Started Now
+            </Link>
+          </div>
         </div>
       </section>
     </div>

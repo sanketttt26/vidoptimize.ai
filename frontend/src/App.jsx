@@ -23,7 +23,7 @@ const ProtectedRoute = ({ children }) => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <i className="fas fa-spinner fa-spin text-4xl text-[#4F46E5]"></i>
+        <i className="fas fa-spinner fa-spin text-4xl text-[#E94B3C]"></i>
       </div>
     );
   }
@@ -38,7 +38,7 @@ const PublicRoute = ({ children }) => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <i className="fas fa-spinner fa-spin text-4xl text-[#4F46E5]"></i>
+        <i className="fas fa-spinner fa-spin text-4xl text-[#E94B3C]"></i>
       </div>
     );
   }

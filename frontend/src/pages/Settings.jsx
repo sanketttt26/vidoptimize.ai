@@ -69,50 +69,50 @@ const Settings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen py-8">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Settings</h1>
+        <h1 className="text-3xl font-bold text-white mb-8">Settings</h1>
 
         {message && (
-          <div className={`mb-6 p-4 rounded-lg ${message.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
+          <div className={`mb-6 p-4 rounded-lg border ${message.type === 'success'
+              ? 'bg-green-500/10 text-green-400 border-green-500/20'
+              : 'bg-red-500/10 text-red-400 border-red-500/20'
+            }`}>
             <i className={`fas fa-${message.type === 'success' ? 'check' : 'exclamation'}-circle mr-2`}></i>
             {message.text}
           </div>
         )}
 
-        <div className="bg-white rounded-lg shadow">
+        <div className="glass-panel overflow-hidden">
           {/* Tabs */}
-          <div className="border-b border-gray-200">
+          <div className="border-b border-white/10">
             <nav className="flex space-x-8 px-6">
               <button
                 onClick={() => setActiveTab('profile')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'profile'
-                    ? 'border-[#4F46E5] text-[#4F46E5]'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
-                }`}
+                className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'profile'
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-gray-400 hover:text-white'
+                  }`}
               >
                 <i className="fas fa-user mr-2"></i>
                 Profile
               </button>
               <button
                 onClick={() => setActiveTab('youtube')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'youtube'
-                    ? 'border-[#4F46E5] text-[#4F46E5]'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
-                }`}
+                className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'youtube'
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-gray-400 hover:text-white'
+                  }`}
               >
                 <i className="fab fa-youtube mr-2"></i>
                 YouTube
               </button>
               <button
                 onClick={() => setActiveTab('notifications')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'notifications'
-                    ? 'border-[#4F46E5] text-[#4F46E5]'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
-                }`}
+                className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'notifications'
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-gray-400 hover:text-white'
+                  }`}
               >
                 <i className="fas fa-bell mr-2"></i>
                 Notifications
@@ -121,46 +121,46 @@ const Settings = () => {
           </div>
 
           {/* Tab Content */}
-          <div className="p-6">
+          <div className="p-8">
             {activeTab === 'profile' && (
-              <form onSubmit={handleProfileUpdate} className="space-y-6">
+              <form onSubmit={handleProfileUpdate} className="space-y-6 max-w-2xl">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
                   <input
                     type="text"
                     value={profileData.name}
                     onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-                    className="input"
+                    className="glass-input"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
                   <input
                     type="email"
                     value={profileData.email}
                     disabled
-                    className="input bg-gray-100 cursor-not-allowed"
+                    className="glass-input opacity-50 cursor-not-allowed"
                   />
-                  <p className="text-sm text-gray-600 mt-1">Email cannot be changed</p>
+                  <p className="text-sm text-gray-500 mt-1">Email cannot be changed</p>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">YouTube Channel URL</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">YouTube Channel URL</label>
                   <input
                     type="url"
                     value={profileData.youtubeChannel}
                     onChange={(e) => setProfileData({ ...profileData, youtubeChannel: e.target.value })}
                     placeholder="https://youtube.com/@yourchannel"
-                    className="input"
+                    className="glass-input"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Bio</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Bio</label>
                   <textarea
                     value={profileData.bio}
                     onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
                     rows="4"
                     placeholder="Tell us about yourself..."
-                    className="input"
+                    className="glass-input"
                   />
                 </div>
                 <button type="submit" disabled={loading} className="btn btn-primary">
@@ -170,12 +170,12 @@ const Settings = () => {
             )}
 
             {activeTab === 'youtube' && (
-              <div className="space-y-6">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="space-y-8 max-w-2xl">
+                <div className="bg-primary/10 border border-primary/20 rounded-xl p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="font-semibold text-gray-900">YouTube Connection</h3>
-                      <p className="text-sm text-gray-600 mt-1">
+                      <h3 className="font-semibold text-white text-lg">YouTube Connection</h3>
+                      <p className="text-sm text-gray-400 mt-1">
                         {profileData.youtubeChannel ? 'Connected' : 'Not connected'}
                       </p>
                     </div>
@@ -186,18 +186,24 @@ const Settings = () => {
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-4">Connected Features</h3>
-                  <ul className="space-y-3">
-                    <li className="flex items-center text-gray-600">
-                      <i className="fas fa-check text-green-500 mr-3"></i>
+                  <h3 className="font-semibold text-white mb-4 text-lg">Connected Features</h3>
+                  <ul className="space-y-4">
+                    <li className="flex items-center text-gray-300">
+                      <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center mr-4">
+                        <i className="fas fa-check text-green-400 text-sm"></i>
+                      </div>
                       Auto-import video metadata
                     </li>
-                    <li className="flex items-center text-gray-600">
-                      <i className="fas fa-check text-green-500 mr-3"></i>
+                    <li className="flex items-center text-gray-300">
+                      <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center mr-4">
+                        <i className="fas fa-check text-green-400 text-sm"></i>
+                      </div>
                       Track video performance
                     </li>
-                    <li className="flex items-center text-gray-600">
-                      <i className="fas fa-check text-green-500 mr-3"></i>
+                    <li className="flex items-center text-gray-300">
+                      <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center mr-4">
+                        <i className="fas fa-check text-green-400 text-sm"></i>
+                      </div>
                       One-click optimization publishing
                     </li>
                   </ul>
@@ -206,12 +212,12 @@ const Settings = () => {
             )}
 
             {activeTab === 'notifications' && (
-              <div className="space-y-6">
+              <div className="space-y-8 max-w-2xl">
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-4">Notification Preferences</h3>
-                  <div className="space-y-4">
-                    <label className="flex items-center justify-between">
-                      <span className="text-gray-700">Email notifications</span>
+                  <h3 className="font-semibold text-white mb-6 text-lg">Notification Preferences</h3>
+                  <div className="space-y-6">
+                    <label className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 cursor-pointer hover:bg-white/10 transition-colors">
+                      <span className="text-gray-300">Email notifications</span>
                       <input
                         type="checkbox"
                         checked={settings.notifications.email}
@@ -221,11 +227,11 @@ const Settings = () => {
                             notifications: { ...settings.notifications, email: e.target.checked }
                           })
                         }
-                        className="w-12 h-6 rounded-full relative appearance-none bg-gray-300 checked:bg-[#4F46E5] cursor-pointer transition-colors"
+                        className="w-5 h-5 rounded border-gray-600 text-primary focus:ring-primary bg-gray-700"
                       />
                     </label>
-                    <label className="flex items-center justify-between">
-                      <span className="text-gray-700">Push notifications</span>
+                    <label className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 cursor-pointer hover:bg-white/10 transition-colors">
+                      <span className="text-gray-300">Push notifications</span>
                       <input
                         type="checkbox"
                         checked={settings.notifications.push}
@@ -235,11 +241,11 @@ const Settings = () => {
                             notifications: { ...settings.notifications, push: e.target.checked }
                           })
                         }
-                        className="w-12 h-6 rounded-full relative appearance-none bg-gray-300 checked:bg-[#4F46E5] cursor-pointer transition-colors"
+                        className="w-5 h-5 rounded border-gray-600 text-primary focus:ring-primary bg-gray-700"
                       />
                     </label>
-                    <label className="flex items-center justify-between">
-                      <span className="text-gray-700">SMS notifications</span>
+                    <label className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 cursor-pointer hover:bg-white/10 transition-colors">
+                      <span className="text-gray-300">SMS notifications</span>
                       <input
                         type="checkbox"
                         checked={settings.notifications.sms}
@@ -249,7 +255,7 @@ const Settings = () => {
                             notifications: { ...settings.notifications, sms: e.target.checked }
                           })
                         }
-                        className="w-12 h-6 rounded-full relative appearance-none bg-gray-300 checked:bg-[#4F46E5] cursor-pointer transition-colors"
+                        className="w-5 h-5 rounded border-gray-600 text-primary focus:ring-primary bg-gray-700"
                       />
                     </label>
                   </div>

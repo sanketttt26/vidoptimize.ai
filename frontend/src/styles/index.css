@@ -6,14 +6,46 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --primary: 238 64% 60%;
-    --primary-foreground: 0 0% 100%;
-    --success: 142 71% 45%;
-    --warning: 38 92% 50%;
-    --error: 4 90% 58%;
-    --radius: 8px;
+    /* Modern Dark Glass Theme Palette */
+    --background: 222 47% 11%;
+    /* Deep dark blue #0f172a */
+    --foreground: 210 40% 98%;
+    /* Off-white #f8fafc */
+
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217 91% 60%;
+    /* Electric Blue #3b82f6 */
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 217 19% 27%;
+    /* Muted Blue-Grey */
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 19% 27%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 262 83% 58%;
+    /* Neon Purple #8b5cf6 */
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 19% 27%;
+    --input: 217 19% 27%;
+    --ring: 217 91% 60%;
+
+    --radius: 0.75rem;
+
+    /* Glassmorphism Variables */
+    --glass-bg: rgba(15, 23, 42, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-highlight: rgba(255, 255, 255, 0.05);
   }
 
   * {
@@ -22,55 +54,42 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+    background-image:
+      radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.08), transparent 25%);
+    background-attachment: fixed;
   }
 }
 
 @layer components {
+  .glass-panel {
+    @apply backdrop-blur-xl bg-opacity-60 border border-white/10 shadow-xl;
+    background-color: var(--glass-bg);
+  }
+
+  .glass-card {
+    @apply glass-panel rounded-xl transition-all duration-300 hover:border-primary/50 hover:shadow-primary/10 hover:-translate-y-1;
+  }
+
+  .glass-button {
+    @apply px-6 py-2.5 rounded-lg font-medium transition-all duration-300 bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-primary/25;
+  }
+
+  .glass-input {
+    @apply w-full px-4 py-2.5 rounded-lg bg-black/20 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all;
+  }
+
   .btn {
-    @apply px-6 py-2.5 font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
-    border-radius: var(--radius);
+    @apply px-6 py-2.5 font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background rounded-lg;
   }
 
   .btn-primary {
-    @apply bg-[#4F46E5] text-white hover:bg-[#4338CA] focus:ring-[#4F46E5];
+    @apply bg-primary text-white hover:bg-blue-600 shadow-lg shadow-blue-500/20;
   }
 
   .btn-secondary {
-    @apply bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400;
-  }
-
-  .card {
-    @apply bg-white shadow-md p-6 transition-shadow hover:shadow-lg;
-    border-radius: calc(var(--radius));
-  }
-
-  .input {
-    @apply w-full px-4 py-2.5 border border-gray-300 focus:ring-2 focus:border-transparent transition-all;
-    border-radius: calc(var(--radius) - 4px);
-  }
-
-  .badge {
-    @apply px-3 py-1 rounded-full text-sm font-medium;
-  }
-
-  .badge-success {
-    @apply bg-green-100 text-green-800;
-  }
-
-  .badge-warning {
-    @apply bg-amber-100 text-amber-800;
-  }
-
-  .badge-error {
-    @apply bg-red-100 text-red-800;
-  }
-
-  .badge-info {
-    @apply bg-blue-100 text-blue-800;
+    @apply bg-secondary text-white hover:bg-gray-700;
   }
 }
 
@@ -81,43 +100,9 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  @apply bg-transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.3s ease-in;
-}
-
-.animate-slideUp {
-  animation: slideUp 0.4s ease-out;
+  @apply bg-gray-700 rounded-full hover:bg-gray-600 transition-colors;
 }

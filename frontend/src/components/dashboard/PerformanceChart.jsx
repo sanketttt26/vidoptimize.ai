@@ -32,16 +32,16 @@ const PerformanceChart = ({ data }) => {
       {
         label: 'Views',
         data: data?.datasets?.[0]?.data || [],
-        borderColor: '#4F46E5',
-        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59, 130, 246, 0.1)',
         tension: 0.4,
         fill: true
       },
       {
         label: 'Engagement',
         data: data?.datasets?.[1]?.data || [],
-        borderColor: '#10B981',
-        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+        borderColor: '#8b5cf6',
+        backgroundColor: 'rgba(139, 92, 246, 0.1)',
         tension: 0.4,
         fill: true
       }
@@ -54,6 +54,9 @@ const PerformanceChart = ({ data }) => {
     plugins: {
       legend: {
         position: 'top',
+        labels: {
+          color: '#9ca3af'
+        }
       },
       title: {
         display: false
@@ -61,25 +64,38 @@ const PerformanceChart = ({ data }) => {
     },
     scales: {
       y: {
-        beginAtZero: true
+        beginAtZero: true,
+        grid: {
+          color: 'rgba(255, 255, 255, 0.05)'
+        },
+        ticks: {
+          color: '#9ca3af'
+        }
+      },
+      x: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          color: '#9ca3af'
+        }
       }
     }
   };
 
   return (
-    <div className="card">
+    <div className="glass-card p-6">
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-lg font-semibold text-gray-900">Performance Overview</h3>
+        <h3 className="text-lg font-semibold text-white">Performance Overview</h3>
         <div className="flex space-x-2">
           {['week', 'month', 'year'].map((p) => (
             <button
               key={p}
               onClick={() => setPeriod(p)}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                period === p
-                  ? 'bg-[#4F46E5] text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${period === p
+                  ? 'bg-primary text-white shadow-lg shadow-primary/25'
+                  : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                }`}
             >
               {p.charAt(0).toUpperCase() + p.slice(1)}
             </button>

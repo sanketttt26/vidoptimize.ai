@@ -7,16 +7,16 @@ const QuotaCard = ({ used, limit, plan }) => {
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
   return (
-    <div className="card">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Usage Quota</h3>
-      
-      <div className="flex items-center justify-center mb-6">
+    <div className="glass-card p-6 h-full">
+      <h3 className="text-lg font-semibold text-white mb-6">Usage Quota</h3>
+
+      <div className="flex items-center justify-center mb-8">
         <svg className="transform -rotate-90" width="180" height="180">
           <circle
             cx="90"
             cy="90"
             r={radius}
-            stroke="#E5E7EB"
+            stroke="rgba(255, 255, 255, 0.1)"
             strokeWidth="12"
             fill="none"
           />
@@ -24,7 +24,7 @@ const QuotaCard = ({ used, limit, plan }) => {
             cx="90"
             cy="90"
             r={radius}
-            stroke="#4F46E5"
+            stroke="#3b82f6"
             strokeWidth="12"
             fill="none"
             strokeDasharray={circumference}
@@ -36,7 +36,7 @@ const QuotaCard = ({ used, limit, plan }) => {
             x="90"
             y="85"
             textAnchor="middle"
-            className="text-3xl font-bold fill-gray-900 transform rotate-90"
+            className="text-3xl font-bold fill-white transform rotate-90"
             style={{ transformOrigin: '90px 90px' }}
           >
             {used}/{limit}
@@ -45,7 +45,7 @@ const QuotaCard = ({ used, limit, plan }) => {
             x="90"
             y="105"
             textAnchor="middle"
-            className="text-sm fill-gray-600 transform rotate-90"
+            className="text-sm fill-gray-400 transform rotate-90"
             style={{ transformOrigin: '90px 90px' }}
           >
             Optimizations
@@ -53,19 +53,19 @@ const QuotaCard = ({ used, limit, plan }) => {
         </svg>
       </div>
 
-      <div className="space-y-3">
-        <div className="flex justify-between items-center">
-          <span className="text-gray-600">Current Plan</span>
-          <span className="badge badge-info capitalize">{plan}</span>
+      <div className="space-y-4">
+        <div className="flex justify-between items-center p-3 rounded-lg bg-white/5 border border-white/10">
+          <span className="text-gray-400">Current Plan</span>
+          <span className="px-3 py-1 rounded-full text-xs font-medium bg-primary/20 text-primary border border-primary/30 capitalize">{plan}</span>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="text-gray-600">Usage</span>
-          <span className="font-semibold text-gray-900">{percentage.toFixed(0)}%</span>
+        <div className="flex justify-between items-center p-3 rounded-lg bg-white/5 border border-white/10">
+          <span className="text-gray-400">Usage</span>
+          <span className="font-semibold text-white">{percentage.toFixed(0)}%</span>
         </div>
         {percentage >= 80 && (
-          <div className="bg-amber-50 text-amber-800 p-3 rounded-lg text-sm">
-            <i className="fas fa-exclamation-triangle mr-2"></i>
-            You're running low on quota. Consider upgrading your plan.
+          <div className="bg-amber-500/10 border border-amber-500/30 text-amber-400 p-3 rounded-lg text-sm flex items-start">
+            <i className="fas fa-exclamation-triangle mr-2 mt-0.5"></i>
+            <span>You're running low on quota. Consider upgrading your plan.</span>
           </div>
         )}
       </div>

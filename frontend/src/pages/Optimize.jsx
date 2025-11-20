@@ -72,34 +72,34 @@ const Optimize = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">AI Video Optimization</h1>
-          <p className="text-gray-600 mt-2">Get AI-powered suggestions for your YouTube videos</p>
+          <h1 className="text-3xl font-bold text-white">AI Video Optimization</h1>
+          <p className="text-gray-400 mt-2">Get AI-powered suggestions for your YouTube videos</p>
         </div>
 
         {/* URL Input */}
-        <div className="card mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Enter Video URL</h2>
+        <div className="glass-card p-8 mb-8">
+          <h2 className="text-xl font-semibold text-white mb-4">Enter Video URL</h2>
           {fetchedYouTubeTitle && (
-            <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-              <p className="text-sm text-gray-600 mb-1">Detected Video:</p>
-              <p className="font-semibold text-gray-900">{fetchedYouTubeTitle}</p>
+            <div className="mb-6 p-4 bg-primary/10 border border-primary/30 rounded-lg">
+              <p className="text-sm text-primary mb-1">Detected Video:</p>
+              <p className="font-semibold text-white">{fetchedYouTubeTitle}</p>
             </div>
           )}
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <input
               type="url"
               value={videoUrl}
               onChange={(e) => setVideoUrl(e.target.value)}
               placeholder="https://youtube.com/watch?v=..."
-              className="input flex-1"
+              className="glass-input flex-1"
             />
             <button
               onClick={handleAnalyze}
               disabled={loading}
-              className="btn btn-primary px-8"
+              className="btn btn-primary px-8 whitespace-nowrap"
             >
               {loading ? (
                 <>
@@ -115,8 +115,8 @@ const Optimize = () => {
             </button>
           </div>
           {error && (
-            <p className="text-red-600 text-sm mt-2">
-              <i className="fas fa-exclamation-circle mr-1"></i>
+            <p className="text-red-400 text-sm mt-3 flex items-center">
+              <i className="fas fa-exclamation-circle mr-2"></i>
               {error}
             </p>
           )}
@@ -124,34 +124,36 @@ const Optimize = () => {
 
         {/* Title Suggestions */}
         {suggestions?.titles && (
-          <div className="card mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Title Suggestions</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="glass-card p-8 mb-8">
+            <h2 className="text-xl font-semibold text-white mb-6">Title Suggestions</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {suggestions.titles.map((suggestion) => (
                 <div
                   key={suggestion.id}
                   onClick={() => setSelectedTitle(suggestion)}
-                  className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${selectedTitle?.id === suggestion.id
-                      ? 'border-[#4F46E5] bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                  className={`p-6 border rounded-xl cursor-pointer transition-all duration-300 relative overflow-hidden group ${selectedTitle?.id === suggestion.id
+                    ? 'border-primary bg-primary/10 shadow-[0_0_20px_rgba(59,130,246,0.3)]'
+                    : 'border-white/10 bg-white/5'
                     }`}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="text-2xl font-bold text-[#4F46E5]">{suggestion.score}</span>
+                  <div className="flex justify-between items-start mb-4">
+                    <span className={`text-3xl font-bold ${selectedTitle?.id === suggestion.id ? 'text-primary' : 'text-gray-500 group-hover:text-gray-400'}`}>
+                      {suggestion.score}
+                    </span>
                     {selectedTitle?.id === suggestion.id && (
-                      <i className="fas fa-check-circle text-[#4F46E5]"></i>
+                      <i className="fas fa-check-circle text-primary text-xl"></i>
                     )}
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">{suggestion.title}</h3>
-                  <p className="text-sm text-gray-600 mb-3">{suggestion.reason}</p>
-                  <div className="space-y-1 text-xs">
+                  <h3 className="font-semibold text-white mb-3 text-lg leading-snug">{suggestion.title}</h3>
+                  <p className="text-sm text-gray-400 mb-4">{suggestion.reason}</p>
+                  <div className="space-y-2 text-xs border-t border-white/10 pt-4">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Click Potential</span>
-                      <span className="font-medium">{suggestion.metrics.clickPotential}%</span>
+                      <span className="text-gray-500">Click Potential</span>
+                      <span className="font-medium text-gray-300">{suggestion.metrics.clickPotential}%</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">SEO Score</span>
-                      <span className="font-medium">{suggestion.metrics.seoScore}%</span>
+                      <span className="text-gray-500">SEO Score</span>
+                      <span className="font-medium text-gray-300">{suggestion.metrics.seoScore}%</span>
                     </div>
                   </div>
                 </div>
@@ -162,29 +164,29 @@ const Optimize = () => {
 
         {/* Description Editor */}
         {suggestions?.description && (
-          <div className="card mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Optimized Description</h2>
+          <div className="glass-card p-8 mb-8">
+            <h2 className="text-xl font-semibold text-white mb-6">Optimized Description</h2>
             <textarea
               value={optimizedDescription}
               onChange={(e) => setOptimizedDescription(e.target.value)}
-              className="input min-h-[300px] font-mono text-sm"
+              className="glass-input min-h-[300px] font-mono text-sm leading-relaxed"
             />
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-600">Keyword Density</p>
-                <p className="text-xl font-bold text-gray-900">{suggestions.description.metrics.keywordDensity}%</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+              <div className="text-center p-4 bg-white/5 rounded-xl border border-white/10">
+                <p className="text-sm text-gray-400 mb-1">Keyword Density</p>
+                <p className="text-2xl font-bold text-white">{suggestions.description.metrics.keywordDensity}%</p>
               </div>
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-600">Readability</p>
-                <p className="text-xl font-bold text-gray-900">{suggestions.description.metrics.readabilityScore}</p>
+              <div className="text-center p-4 bg-white/5 rounded-xl border border-white/10">
+                <p className="text-sm text-gray-400 mb-1">Readability</p>
+                <p className="text-2xl font-bold text-white">{suggestions.description.metrics.readabilityScore}</p>
               </div>
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-600">SEO Score</p>
-                <p className="text-xl font-bold text-gray-900">{suggestions.description.metrics.seoScore}</p>
+              <div className="text-center p-4 bg-white/5 rounded-xl border border-white/10">
+                <p className="text-sm text-gray-400 mb-1">SEO Score</p>
+                <p className="text-2xl font-bold text-white">{suggestions.description.metrics.seoScore}</p>
               </div>
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-600">Characters</p>
-                <p className="text-xl font-bold text-gray-900">{optimizedDescription.length}</p>
+              <div className="text-center p-4 bg-white/5 rounded-xl border border-white/10">
+                <p className="text-sm text-gray-400 mb-1">Characters</p>
+                <p className="text-2xl font-bold text-white">{optimizedDescription.length}</p>
               </div>
             </div>
           </div>
@@ -192,11 +194,11 @@ const Optimize = () => {
 
         {/* Tags */}
         {suggestions?.tags && (
-          <div className="card mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Suggested Tags</h2>
-            <div className="flex flex-wrap gap-2">
+          <div className="glass-card p-8 mb-8">
+            <h2 className="text-xl font-semibold text-white mb-6">Suggested Tags</h2>
+            <div className="flex flex-wrap gap-3">
               {suggestions.tags.map((tag, index) => (
-                <span key={index} className="badge badge-info">
+                <span key={index} className="px-3 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20">
                   {tag}
                 </span>
               ))}
@@ -207,7 +209,7 @@ const Optimize = () => {
         {/* Save Button */}
         {suggestions && (
           <div className="flex justify-end">
-            <button onClick={handleSave} className="btn btn-primary px-8">
+            <button onClick={handleSave} className="btn btn-primary px-8 py-3 text-lg shadow-lg shadow-primary/25">
               <i className="fas fa-save mr-2"></i>
               Save Optimization
             </button>
