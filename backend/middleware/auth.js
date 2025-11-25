@@ -1,6 +1,7 @@
 import { verifyAccessToken } from "../utils/jwt.js";
+import User from "../models/User.js";
 
-export const authenticateToken = (req, res, next) => {
+export const authenticateToken = async (req, res, next) => {
   try {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
@@ -12,13 +13,22 @@ export const authenticateToken = (req, res, next) => {
     }
 
     const decoded = verifyAccessToken(token);
-    if (!decoded) {
-      return res.status(403).json({ error: "Invalid or expired token." });
+    
+    // Check if user still exists
+    const user = await User.findById(decoded.userId).select("-password");
+    if (!user) {
+      return res.status(401).json({ error: "User not found or account disabled." });
     }
 
-    req.user = decoded;
+    req.user = user;
     next();
   } catch (err) {
+    if (err.name === "TokenExpiredError") {
+      return res.status(401).json({ error: "Token expired." });
+    }
+    if (err.name === "JsonWebTokenError") {
+      return res.status(403).json({ error: "Invalid token." });
+    }
     console.error("Auth middleware error:", err);
     return res.status(500).json({ error: "Authentication error" });
   }

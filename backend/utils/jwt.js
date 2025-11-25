@@ -20,17 +20,9 @@ export const generateRefreshToken = (userId, email) => {
 };
 
 export const verifyAccessToken = (token) => {
-  try {
-    return jwt.verify(token, ACCESS_SECRET);
-  } catch (error) {
-    return null;
-  }
+  return jwt.verify(token, ACCESS_SECRET);
 };
 
 export const verifyRefreshToken = (token) => {
-  try {
-    return jwt.verify(token, REFRESH_SECRET);
-  } catch (error) {
-    return null;
-  }
+  return jwt.verify(token, REFRESH_SECRET);
 };
